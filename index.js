@@ -43,6 +43,20 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/filterIssue", async (req, res) => {
+      const { category, status } = req.query;
+      const query = {};
+      if (category) {
+        query.category = category;
+      }
+      if (status) {
+        query.status = status;
+      }
+
+      const result = await issuesCollection.find(query).toArray();
+      res.send(result);
+    });
+
     app.get("/latestIssue", async (req, res) => {
       const result = await issuesCollection
         .find()
