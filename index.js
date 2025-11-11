@@ -29,6 +29,7 @@ async function run() {
 
     const db = client.db("fixitDb");
     const issuesCollection = db.collection("issues");
+    const contributionCollection = db.collection("countribution");
 
     app.get("/issues", async (req, res) => {
       const email = req.query.email;
@@ -96,6 +97,12 @@ async function run() {
       const { id } = req.params;
       const query = { _id: new ObjectId(id) };
       const result = await issuesCollection.deleteOne(query);
+      res.send(result);
+    });
+
+    app.post("/contribute", async (req, res) => {
+      const newContribution = req.body;
+      const result = await contributionCollection.insertOne(newContribution);
       res.send(result);
     });
 
