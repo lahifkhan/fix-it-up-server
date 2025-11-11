@@ -75,7 +75,6 @@ async function run() {
     app.put("/issues/:id", async (req, res) => {
       const { id } = req.params;
       const data = req.body;
-
       const query = { _id: new ObjectId(id) };
       const update = {
         $set: data,
@@ -83,6 +82,13 @@ async function run() {
 
       const result = await issuesCollection.updateOne(query, update);
 
+      res.send(result);
+    });
+
+    app.delete("/issues/:id", async (req, res) => {
+      const { id } = req.params;
+      const query = { _id: new ObjectId(id) };
+      const result = await issuesCollection.deleteOne(query);
       res.send(result);
     });
 
