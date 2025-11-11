@@ -43,6 +43,13 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/issues/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await issuesCollection.findOne(query);
+      res.send(result);
+    });
+
     app.get("/filterIssue", async (req, res) => {
       const { category, status } = req.query;
       const query = {};
