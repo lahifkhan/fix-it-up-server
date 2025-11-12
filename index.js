@@ -46,8 +46,18 @@ async function run() {
 
     app.get("/issues/:id", async (req, res) => {
       const id = req.params.id;
+
+      if (!ObjectId.isValid(id)) {
+        return res.status(400).send({ message: "Invalid issue ID format" });
+      }
+
       const query = { _id: new ObjectId(id) };
       const result = await issuesCollection.findOne(query);
+
+      if (!result) {
+        return res.status(404).send({ message: "Issue not found" });
+      }
+
       res.send(result);
     });
 
